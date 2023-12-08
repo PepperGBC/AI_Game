@@ -8,20 +8,10 @@ public class FirstPersonController : MonoBehaviour
     public float sensitivity = 2.0f;
     public float bobbingSpeed = 0.18f;
     public float bobbingAmount = 0.2f;
-    public float jumpForce = 2.0f;
-    private float midpoint = 1.0f;
+    public float midpoint = 0.5f;
 
     private float yRotation;
     private float xRotation;
-    private bool isJumping;
-
-    private RaycastHit hit;
-    private float distanceToGround = 1f;
-
-    void Start()
-    {
-        isJumping = false;
-    }
 
     void Update()
     {
@@ -76,22 +66,5 @@ public class FirstPersonController : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
         Camera.main.transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
-
-        // 점프 기능 추가
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
-        {
-            isJumping = true;
-            StartCoroutine(Jump());
-        }
-    }
-
-    IEnumerator Jump()
-    {
-        while (transform.position.y < jumpForce + midpoint)
-        {
-            transform.position += Vector3.up * speed * Time.deltaTime;
-            yield return null;
-        }
-        isJumping = false;
     }
 }
