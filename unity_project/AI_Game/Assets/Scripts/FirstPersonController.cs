@@ -1,3 +1,6 @@
+// 2023-12-11 AI-Tag 
+// This was created with assistance from Muse, a Unity Artificial Intelligence product
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +11,9 @@ public class FirstPersonController : MonoBehaviour
     public float sensitivity = 2.0f;
     public float bobbingSpeed = 0.18f;
     public float bobbingAmount = 0.2f;
+    public float minFov = 15f;
+    public float maxFov = 90f;
+    public float fovSpeed = 10f;
     public float midpoint = 0.5f;
 
     private float yRotation;
@@ -66,5 +72,11 @@ public class FirstPersonController : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
         Camera.main.transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
+
+        // FOV control
+        float fov = Camera.main.fieldOfView;
+        fov += Input.GetAxis("Mouse ScrollWheel") * -fovSpeed;
+        fov = Mathf.Clamp(fov, minFov, maxFov);
+        Camera.main.fieldOfView = fov;
     }
 }
