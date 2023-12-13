@@ -1,23 +1,31 @@
-// 2023-12-11 AI-Tag 
-// This was created with assistance from Muse, a Unity Artificial Intelligence product
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FirstPersonController : MonoBehaviour
 {
-    public float speed = 5.0f;
-    public float sensitivity = 2.0f;
+    public float speed = 2.0f;
+    public float sensitivity = 2.5f;
     public float bobbingSpeed = 0.18f;
-    public float bobbingAmount = 0.2f;
+    public float bobbingAmount = 0.03f;
     public float minFov = 15f;
     public float maxFov = 90f;
     public float fovSpeed = 10f;
-    public float midpoint = 0.5f;
+    public float lerpSpeed = 0.1f; // Lerp speed for smooth transitionss
+    public float midpoint = 2.0f;
 
     private float yRotation;
     private float xRotation;
+
+    void Start()
+    {
+        // Initialize rotation
+        transform.localRotation = Quaternion.identity;
+
+        // Lock and hide the cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     void Update()
     {
@@ -26,6 +34,10 @@ public class FirstPersonController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 cSharpConversion = transform.localPosition;
+
+        // Midpoint control with smoothing
+        float targetMidpoint = Input.GetKey(KeyCode.LeftControl) ? 1.0f : 2.0f;
+        midpoint = Mathf.Lerp(midpoint, targetMidpoint, lerpSpeed);
 
         if (Mathf.Abs(horizontal) == 0 && Mathf.Abs(vertical) == 0)
         {
@@ -56,6 +68,18 @@ public class FirstPersonController : MonoBehaviour
 
         transform.localPosition = cSharpConversion;
 
+        // Speed control
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 4.0f;
+            bobbingAmount = 0.1f;
+        }
+        else
+        {
+            speed = 2.0f;
+            bobbingAmount = 0.03f;
+        }
+
         float moveX = horizontal * speed * Time.deltaTime;
         float moveZ = vertical * speed * Time.deltaTime;
 
@@ -67,8 +91,8 @@ public class FirstPersonController : MonoBehaviour
         yRotation -= mouseY;
         xRotation += mouseX;
 
-        yRotation = Mathf.Clamp(yRotation, -90f, 90f);
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        yRotation = Mathf.Clamp(yRotation, -180f, 180f);
+        xRotation = Mathf.Clamp(xRotation, -180f, 180f);
 
         transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
         Camera.main.transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
