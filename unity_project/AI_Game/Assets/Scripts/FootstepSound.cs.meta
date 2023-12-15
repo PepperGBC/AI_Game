@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 19d3226a2efa1264280e11c130edff37
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - footstepSound: {fileID: 8300000, guid: 71496a7e3993c2f46bccbe303ea78258, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

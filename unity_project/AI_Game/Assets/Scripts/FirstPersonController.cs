@@ -91,8 +91,8 @@ public class FirstPersonController : MonoBehaviour
         yRotation -= mouseY;
         xRotation += mouseX;
 
-        yRotation = Mathf.Clamp(yRotation, -180f, 180f);
-        xRotation = Mathf.Clamp(xRotation, -180f, 180f);
+        yRotation = Mathf.Clamp(yRotation, -360f, 360f);
+        xRotation = Mathf.Clamp(xRotation, -360f, 360f);
 
         transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
         Camera.main.transform.localRotation = Quaternion.Euler(yRotation, xRotation, 0);
